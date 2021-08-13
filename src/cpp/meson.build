@@ -30,5 +30,8 @@ proto_generated += grpc_proto_gen.process(proto_sources)
 
 common_include = include_directories('common')
 
+cxxopts_proj = subproject('cxxopts')
+cxxopts_dep = cxxopts_proj.get_variable('cxxopts_dep')
+
 subdir('server/sync')
 subdir('client/sync')

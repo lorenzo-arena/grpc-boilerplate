@@ -20,6 +20,20 @@ class Logger
     static void Debug(Arg&& arg, Args&&... args)
     {
         std::cout << "[DEBUG] ";
+        Logger::log(arg, args...);
+    }
+
+    template <typename Arg, typename... Args>
+    static void Error(Arg&& arg, Args&&... args)
+    {
+        std::cout << "[ERROR] ";
+        Logger::log(arg, args...);
+    }
+
+  private:
+    template <typename Arg, typename... Args>
+    static void log(Arg&& arg, Args&&... args)
+    {
         std::cout << std::forward<Arg>(arg);
         using expander = int[];
         (void)expander{0, (void(std::cout << std::forward<Args>(args)), 0)...};
