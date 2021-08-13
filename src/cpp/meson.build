@@ -31,3 +31,4 @@ proto_generated += grpc_proto_gen.process(proto_sources)
 common_include = include_directories('common')
 
 subdir('server/sync')
+subdir('client/sync')

@@ -1,3 +1,12 @@
+/**
+ * @file main.cc
+ *
+ * @brief Main file for sync server example.
+ *
+ * @author Lorenzo Arena
+ *
+ */
+
 #include <signal.h>
 #include <cstdlib>
 #include <unistd.h>
