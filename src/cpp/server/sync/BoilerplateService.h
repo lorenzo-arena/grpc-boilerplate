@@ -22,6 +22,9 @@ class BoilerplateService final : public boiler::plate::Boilerplate::Service
 
     auto UnaryRequest(grpc::ServerContext* context, const boiler::plate::Request* request,
                       boiler::plate::Response* response) -> grpc::Status override;
+
+    auto StreamRequest(grpc::ServerContext* context, const boiler::plate::Request* request,
+                       grpc::ServerWriter<boiler::plate::Response>* writer) -> grpc::Status override;
 };
 
 #endif

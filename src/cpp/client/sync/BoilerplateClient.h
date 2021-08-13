@@ -20,6 +20,7 @@ class BoilerplateClient
     BoilerplateClient(const std::string &url);
 
     void UnaryRequest();
+    void StreamRequest();
 
   private:
     std::unique_ptr<boiler::plate::Boilerplate::Stub> stub_;

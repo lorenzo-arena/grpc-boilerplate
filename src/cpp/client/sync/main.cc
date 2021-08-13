@@ -1,7 +1,8 @@
 /**
  * @file main.cc
  *
- * @brief Main file for sync client example.
+ * @brief Main file for sync client example. cxopt is used for command line options handling, so it can be started using
+ *        `./grpc-client-sync --url localhost:8080 --unary
  *
  * @author Lorenzo Arena
  *
@@ -19,16 +20,30 @@ int main(int argc, char** argv)
         cxxopts::Options options("gRPC++ Boilerplate Client", "Simple gRPC synchronous client");
 
         options.add_options()
-            ("url", "gRPC server URL", cxxopts::value<std::string>()->default_value("localhost:8080"));
+            ("url", "gRPC server URL", cxxopts::value<std::string>()->default_value("localhost:8080"))
+            ("unary", "start unary request", cxxopts::value<bool>()->default_value("true"))
+            ("streaming", "start streaming request", cxxopts::value<bool>()->default_value("true"));
 
         auto result = options.parse(argc, argv);
         auto url = result["url"].as<std::string>();
+        auto unary = result["unary"].as<bool>();
+        auto streaming = result["streaming"].as<bool>();
 
         /* Create the client and send a sample request */
         Logger::Debug("Creating client for server URL: ", url);
         auto client = std::make_unique<BoilerplateClient>(url);
 
-        client->UnaryRequest();
+        if (unary)
+        {
+            Logger::Debug("Unary request option enabled");
+            client->UnaryRequest();
+        }
+
+        if (streaming)
+        {
+            Logger::Debug("Unary request option enabled");
+            client->StreamRequest();
+        }
     }
     catch(const std::exception& e)
     {
