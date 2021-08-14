@@ -76,3 +76,27 @@ auto BoilerplateService::ClientStreamRequest(__attribute((unused)) grpc::ServerC
     response->set_text("response");
     return grpc::Status::OK;
 }
+
+auto BoilerplateService::BidiStreamRequest(__attribute((unused)) grpc::ServerContext* context,
+                                           grpc::ServerReaderWriter<boiler::plate::Response, boiler::plate::Request>* stream) -> grpc::Status
+{
+    Logger::Debug("BoilerplateService: received BidiStreamRequest");
+
+    boiler::plate::Request req;
+    std::list<boiler::plate::Request> reqList;
+    while (stream->Read(&req))
+    {
+        Logger::Debug("BoilerplateService: BidiStreamRequest received request with text ", req.text());
+        reqList.push_back(req);
+    }
+
+    Logger::Debug("BoilerplateService: BidiStreamRequest starting response stream.. ", req.text());
+    for (const auto &reqElement: reqList)
+    {
+        boiler::plate::Response resp;
+        resp.set_text("Response for " + reqElement.text());
+        stream->Write(resp);
+    }
+
+    return grpc::Status::OK;
+}

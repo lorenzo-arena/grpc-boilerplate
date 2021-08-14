@@ -23,13 +23,15 @@ int main(int argc, char** argv)
             ("url", "gRPC server URL", cxxopts::value<std::string>()->default_value("localhost:8080"))
             ("unary", "start unary request", cxxopts::value<bool>()->default_value("true"))
             ("streaming", "start streaming request", cxxopts::value<bool>()->default_value("true"))
-            ("clientstream", "start client streaming request", cxxopts::value<bool>()->default_value("true"));
+            ("clientstream", "start client streaming request", cxxopts::value<bool>()->default_value("true"))
+            ("bidi", "start bidi streaming request", cxxopts::value<bool>()->default_value("true"));
 
         auto result = options.parse(argc, argv);
         auto url = result["url"].as<std::string>();
         auto unary = result["unary"].as<bool>();
         auto streaming = result["streaming"].as<bool>();
         auto clientStream = result["clientstream"].as<bool>();
+        auto bidi = result["bidi"].as<bool>();
 
         /* Create the client and send a sample request */
         Logger::Debug("Creating client for server URL: ", url);
@@ -51,6 +53,12 @@ int main(int argc, char** argv)
         {
             Logger::Debug("ClientStreamRequest option enabled, starting..");
             client->ClientStreamRequest();
+        }
+
+        if (bidi)
+        {
+            Logger::Debug("BidiStreamRequest option enabled, starting..");
+            client->BidiStreamRequest();
         }
     }
     catch(const std::exception& e)

@@ -74,3 +74,29 @@ void BoilerplateClient::ClientStreamRequest()
                   "and response: ",
                   resp.text());
 }
+
+void BoilerplateClient::BidiStreamRequest()
+{
+    grpc::ClientContext context;
+    boiler::plate::Request req;
+    boiler::plate::Response resp;
+
+    Logger::Debug("BoilerplateClient: starting bidi streaming..");
+    auto stream = stub_->BidiStreamRequest(&context);
+    int index;
+    for (index = 0; index < 10; index++)
+    {
+        req.set_text("Request " + std::to_string(index));
+        stream->Write(req);
+    }
+
+    stream->WritesDone();
+
+    while (stream->Read(&resp))
+    {
+        Logger::Debug("BoilerplateClient: received stream data: ", resp.text());
+    }
+
+    auto status = stream->Finish();
+    Logger::Debug("BoilerplateClient: BidiStreamRequest ended with status ", status.ok() ? "OK" : "NOT OK");
+}

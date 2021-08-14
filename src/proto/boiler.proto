@@ -9,6 +9,7 @@ service Boilerplate {
     rpc UnaryRequest (Request) returns (Response) {}
     rpc StreamRequest (Request) returns (stream Response) {}
     rpc ClientStreamRequest (stream Request) returns (Response) {}
+    rpc BidiStreamRequest (stream Request) returns (stream Response) {}
 }
 
 message Request {

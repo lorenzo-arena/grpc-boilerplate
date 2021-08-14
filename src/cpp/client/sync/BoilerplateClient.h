@@ -22,6 +22,7 @@ class BoilerplateClient
     void UnaryRequest();
     void StreamRequest();
     void ClientStreamRequest();
+    void BidiStreamRequest();
 
   private:
     std::unique_ptr<boiler::plate::Boilerplate::Stub> stub_;

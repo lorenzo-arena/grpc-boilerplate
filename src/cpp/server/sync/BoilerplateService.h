@@ -28,6 +28,9 @@ class BoilerplateService final : public boiler::plate::Boilerplate::Service
 
     auto ClientStreamRequest(grpc::ServerContext* context, grpc::ServerReader<boiler::plate::Request>* reader,
                              boiler::plate::Response* response) -> grpc::Status override;
+
+    auto BidiStreamRequest(grpc::ServerContext* context,
+                           grpc::ServerReaderWriter<boiler::plate::Response, boiler::plate::Request>* stream) -> grpc::Status override;
 };
 
 #endif
