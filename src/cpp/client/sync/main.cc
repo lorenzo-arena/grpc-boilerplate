@@ -22,12 +22,14 @@ int main(int argc, char** argv)
         options.add_options()
             ("url", "gRPC server URL", cxxopts::value<std::string>()->default_value("localhost:8080"))
             ("unary", "start unary request", cxxopts::value<bool>()->default_value("true"))
-            ("streaming", "start streaming request", cxxopts::value<bool>()->default_value("true"));
+            ("streaming", "start streaming request", cxxopts::value<bool>()->default_value("true"))
+            ("clientstream", "start client streaming request", cxxopts::value<bool>()->default_value("true"));
 
         auto result = options.parse(argc, argv);
         auto url = result["url"].as<std::string>();
         auto unary = result["unary"].as<bool>();
         auto streaming = result["streaming"].as<bool>();
+        auto clientStream = result["clientstream"].as<bool>();
 
         /* Create the client and send a sample request */
         Logger::Debug("Creating client for server URL: ", url);
@@ -35,14 +37,20 @@ int main(int argc, char** argv)
 
         if (unary)
         {
-            Logger::Debug("Unary request option enabled");
+            Logger::Debug("UnaryRequest option enabled, starting..");
             client->UnaryRequest();
         }
 
         if (streaming)
         {
-            Logger::Debug("Unary request option enabled");
+            Logger::Debug("StreamRequest option enabled, starting..");
             client->StreamRequest();
+        }
+
+        if (clientStream)
+        {
+            Logger::Debug("ClientStreamRequest option enabled, starting..");
+            client->ClientStreamRequest();
         }
     }
     catch(const std::exception& e)

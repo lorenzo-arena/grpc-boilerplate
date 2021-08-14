@@ -29,15 +29,7 @@ void BoilerplateClient::UnaryRequest()
 
     Logger::Debug("BoilerplateClient: sending UnaryRequest request with text: ", req.text());
     auto status = stub_->UnaryRequest(&context, req, &resp);
-
-    if (status.ok())
-    {
-        Logger::Debug("BoilerplateClient: unary request ended with status OK, response: ", resp.text());
-    }
-    else
-    {
-        Logger::Debug("BoilerplateClient: unary request ended with status NOT OK");
-    }
+    Logger::Debug("BoilerplateClient: UnaryRequest ended with status ", status.ok() ? "OK" : "NOT OK");
 }
 
 void BoilerplateClient::StreamRequest()
@@ -56,13 +48,29 @@ void BoilerplateClient::StreamRequest()
     }
 
     auto status = reader->Finish();
+    Logger::Debug("BoilerplateClient: StreamRequest ended with status ", status.ok() ? "OK" : "NOT OK");
+}
 
-    if (status.ok())
+void BoilerplateClient::ClientStreamRequest()
+{
+    grpc::ClientContext context;
+    boiler::plate::Request req;
+    boiler::plate::Response resp;
+
+    Logger::Debug("BoilerplateClient: starting streaming..");
+    auto writer = stub_->ClientStreamRequest(&context, &resp);
+    int index;
+    for (index = 0; index < 10; index++)
     {
-        Logger::Debug("BoilerplateClient: unary request ended with status OK");
+        req.set_text("Request " + std::to_string(index));
+        writer->Write(req);
     }
-    else
-    {
-        Logger::Debug("BoilerplateClient: unary request ended with status NOT OK");
-    }
+
+    writer->WritesDone();
+
+    auto status = writer->Finish();
+    Logger::Debug("BoilerplateClient: ClientStreamRequest ended with status ",
+                  status.ok() ? "OK " : "NOT OK ",
+                  "and response: ",
+                  resp.text());
 }

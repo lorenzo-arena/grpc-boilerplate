@@ -8,6 +8,7 @@ package boiler.plate;
 service Boilerplate {
     rpc UnaryRequest (Request) returns (Response) {}
     rpc StreamRequest (Request) returns (stream Response) {}
+    rpc ClientStreamRequest (stream Request) returns (Response) {}
 }
 
 message Request {

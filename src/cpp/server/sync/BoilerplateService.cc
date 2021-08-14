@@ -59,3 +59,20 @@ auto BoilerplateService::StreamRequest(__attribute((unused)) grpc::ServerContext
     Logger::Debug("BoilerplateService: sending OK status");
     return grpc::Status::OK;
 }
+
+auto BoilerplateService::ClientStreamRequest(__attribute((unused)) grpc::ServerContext* context,
+                                              grpc::ServerReader<boiler::plate::Request>* reader,
+                                              boiler::plate::Response* response) -> grpc::Status
+{
+    Logger::Debug("BoilerplateService: received ClientStreamRequest");
+
+    boiler::plate::Request req;
+    while (reader->Read(&req))
+    {
+        Logger::Debug("BoilerplateService: ClientStreamRequest received request with text ", req.text());
+    }
+
+    Logger::Debug("BoilerplateService: ClientStreamRequest sending response");
+    response->set_text("response");
+    return grpc::Status::OK;
+}
