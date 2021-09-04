@@ -11,6 +11,8 @@ grpc_dep = dependency('grpc', required : true, method : 'pkg-config')
 grpcpp_dep = dependency('grpc++', required : true, method : 'pkg-config')
 protobuf_dep = dependency('protobuf', required : true, method : 'pkg-config')
 
+thread_dep = dependency('threads')
+
 protoc_args = meson.get_cross_property('protoc_args', [])
 
 proto_gen = generator(protoc,
@@ -34,4 +36,5 @@ cxxopts_proj = subproject('cxxopts')
 cxxopts_dep = cxxopts_proj.get_variable('cxxopts_dep')
 
 subdir('server/sync')
+subdir('server/async')
 subdir('client/sync')

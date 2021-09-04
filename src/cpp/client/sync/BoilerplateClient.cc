@@ -29,7 +29,12 @@ void BoilerplateClient::UnaryRequest()
 
     Logger::Debug("BoilerplateClient: sending UnaryRequest request with text: ", req.text());
     auto status = stub_->UnaryRequest(&context, req, &resp);
-    Logger::Debug("BoilerplateClient: UnaryRequest ended with status ", status.ok() ? "OK" : "NOT OK");
+    Logger::Debug("BoilerplateClient: UnaryRequest ended with status -> ", status.ok() ? "OK" : "NOT OK");
+
+    if (status.ok())
+    {
+        Logger::Debug("BoilerplateClient: UnaryRequest ended with response -> ", resp.text());
+    }
 }
 
 void BoilerplateClient::StreamRequest()
@@ -48,7 +53,7 @@ void BoilerplateClient::StreamRequest()
     }
 
     auto status = reader->Finish();
-    Logger::Debug("BoilerplateClient: StreamRequest ended with status ", status.ok() ? "OK" : "NOT OK");
+    Logger::Debug("BoilerplateClient: StreamRequest ended with status -> ", status.ok() ? "OK" : "NOT OK");
 }
 
 void BoilerplateClient::ClientStreamRequest()
@@ -69,9 +74,9 @@ void BoilerplateClient::ClientStreamRequest()
     writer->WritesDone();
 
     auto status = writer->Finish();
-    Logger::Debug("BoilerplateClient: ClientStreamRequest ended with status ",
+    Logger::Debug("BoilerplateClient: ClientStreamRequest ended with status -> ",
                   status.ok() ? "OK " : "NOT OK ",
-                  "and response: ",
+                  "and response -> ",
                   resp.text());
 }
 
@@ -98,5 +103,5 @@ void BoilerplateClient::BidiStreamRequest()
     }
 
     auto status = stream->Finish();
-    Logger::Debug("BoilerplateClient: BidiStreamRequest ended with status ", status.ok() ? "OK" : "NOT OK");
+    Logger::Debug("BoilerplateClient: BidiStreamRequest ended with status -> ", status.ok() ? "OK" : "NOT OK");
 }

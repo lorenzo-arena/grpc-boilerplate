@@ -40,11 +40,8 @@ bool SyncServer::Run(const std::string &url)
     // quota.SetMaxThreads(4);
     // builder.SetResourceQuota(quota);
 
-    // Register "service_" as the instance through which we'll communicate with
-    // clients. In this case it corresponds to an *asynchronous* service.
+    /* Register "service_" as the instance through which we'll communicate with clients. */
     builder.RegisterService(service_.get());
-
-    // Finally assemble the server.
     server_ = builder.BuildAndStart();
 
     Logger::Debug("SyncServer: listening on ", url);
