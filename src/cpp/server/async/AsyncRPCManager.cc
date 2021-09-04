@@ -12,7 +12,7 @@
 #include "Logger.h"
 
 AsyncRPCManager::AsyncRPCManager(grpc::ServerCompletionQueue *cq, bool notifyWhenDone)
-    : cq_(cq), finished_(false), status_(CREATE)
+    : cq_(cq), finished_(false), started_(false), status_(CREATE)
 {
     if (notifyWhenDone)
     {
@@ -22,9 +22,10 @@ AsyncRPCManager::AsyncRPCManager(grpc::ServerCompletionQueue *cq, bool notifyWhe
 
 void AsyncRPCManager::Cancel()
 {
-    if (!finished_)
+    if (!finished_ && started_)
     {
         ctx_.TryCancel();
+        finished_ = true;
     }
 }
 

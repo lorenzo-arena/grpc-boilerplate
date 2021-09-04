@@ -20,9 +20,9 @@ class AsyncRPCManager
     {
     }
 
-    void Cancel();
-    void Proceed(bool ok);
-    bool Finished();
+    virtual void Cancel();
+    virtual void Proceed(bool ok);
+    virtual bool Finished();
 
   protected:
     virtual void createHandler(bool ok) = 0;
@@ -35,6 +35,7 @@ class AsyncRPCManager
     grpc::ServerCompletionQueue *cq_;
     grpc::ServerContext ctx_;
     bool finished_;
+    bool started_;
 
     enum RPCStatus
     {

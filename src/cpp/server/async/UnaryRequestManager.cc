@@ -18,8 +18,8 @@
  * Calls the super constructor without setting the "notify when done"
  * event, since it's not a streaming RPC
  */
-UnaryRequestManager::UnaryRequestManager(std::shared_ptr<AsyncServer> server)
-    : AsyncRPCManager(server->CompletionQueue(), false), server_(std::move(server)), responder_(&ctx_)
+UnaryRequestManager::UnaryRequestManager(AsyncServer *server)
+    : AsyncRPCManager(server->CompletionQueue(), false), server_(server), responder_(&ctx_)
 {
     Logger::Debug("UnaryRequestManager: allocating");
 

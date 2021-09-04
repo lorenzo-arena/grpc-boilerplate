@@ -40,7 +40,7 @@ int main()
     }
 
     /* Instantiate the managers which will serve the requests */
-    auto unaryRequestManager = std::make_unique<UnaryRequestManager>(server);
+    auto unaryRequestManager = std::make_unique<UnaryRequestManager>(server.get());
     server->AddManager(std::move(unaryRequestManager));
 
     pause();

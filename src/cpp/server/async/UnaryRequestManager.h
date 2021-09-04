@@ -23,7 +23,7 @@
 class UnaryRequestManager final : public AsyncRPCManager
 {
   public:
-    UnaryRequestManager(std::shared_ptr<AsyncServer> server);
+    UnaryRequestManager(AsyncServer *server);
     ~UnaryRequestManager();
 
   private:
@@ -34,7 +34,7 @@ class UnaryRequestManager final : public AsyncRPCManager
     void cancelledHandler(bool ok) override;
     void finishHandler(bool ok) override;
 
-    std::shared_ptr<AsyncServer> server_;
+    AsyncServer *server_;
     boiler::plate::Request request_;
     boiler::plate::Response response_;
     grpc::Status responseStatus_;
