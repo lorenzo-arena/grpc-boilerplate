@@ -14,6 +14,7 @@
 #include "Logger.h"
 #include "AsyncServer.h"
 #include "UnaryRequestManager.h"
+#include "StreamRequestManager.h"
 
 void handler(__attribute((unused)) int s)
 {
@@ -42,6 +43,8 @@ int main()
     /* Instantiate the managers which will serve the requests */
     auto unaryRequestManager = std::make_unique<UnaryRequestManager>(server.get());
     server->AddManager(std::move(unaryRequestManager));
+    auto streamRequestManager = std::make_unique<StreamRequestManager>(server.get());
+    server->AddManager(std::move(streamRequestManager));
 
     pause();
 

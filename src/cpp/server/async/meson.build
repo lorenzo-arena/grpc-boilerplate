@@ -2,6 +2,7 @@ sources = ['main.cc',
            'AsyncServer.cc',
            'AsyncRPCManager.cc',
            'UnaryRequestManager.cc',
+           'StreamRequestManager.cc',
            proto_generated]
 
 executable('grpc-server-async',
