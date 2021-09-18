@@ -13,6 +13,7 @@
 #include <sstream>
 #include <thread>
 #include <algorithm>
+#include <chrono>
 
 #include "Logger.h"
 
@@ -28,7 +29,7 @@ AsyncServer::~AsyncServer()
     if (cq_)
     {
         auto alarm = std::make_shared<grpc::Alarm>();
-        alarm->Set(cq_.get(), gpr_now(gpr_clock_type::GPR_CLOCK_REALTIME), nullptr);
+        alarm->Set(cq_.get(), std::chrono::system_clock::now(), nullptr);
     }
 
     try
@@ -46,7 +47,7 @@ AsyncServer::~AsyncServer()
     if (server_)
     {
         /* Shutdown with immediate cancel of connections */
-        server_->Shutdown(gpr_now(gpr_clock_type::GPR_CLOCK_REALTIME));
+        server_->Shutdown(std::chrono::system_clock::now());
     }
 
     /* Always shutdown the completion queue after the server. */
